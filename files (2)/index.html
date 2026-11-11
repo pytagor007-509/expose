@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Architecture réseau d’une banque haïtienne multi-sites</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<style>
+:root{--bleu:#14325c;--rouge:#b3261e;--gris:#4a5568;--fond:#f7f8fa}
+.reveal{font-family:"Segoe UI",Helvetica,Arial,sans-serif;color:var(--bleu)}
+.reveal-viewport{background:var(--fond)}
+.reveal h1,.reveal h2{font-family:inherit;color:var(--bleu);text-transform:none;letter-spacing:0;margin:0 0 .4em}
+.reveal h1{font-size:1.8em;line-height:1.15}.reveal h2{font-size:1.3em}
+.reveal .slides section{text-align:left}
+.filet{width:90px;height:6px;background:var(--rouge);margin:.4em 0 .6em}
+.persos{display:flex;justify-content:center;gap:50px;align-items:flex-end}
+.persos figure{margin:0;text-align:center}.persos img{height:340px;margin:0;border:0;box-shadow:none;background:none}
+.persos figcaption{font-size:.55em;color:var(--gris)}
+.duo{display:flex;align-items:center;justify-content:center;gap:40px}
+.duo img{margin:0;border:0;box-shadow:none;background:none;max-height:430px}
+.bulle{background:#fff;border:3px solid var(--bleu);border-radius:18px;padding:.5em .8em;font-size:.7em;max-width:420px}
+.bulle.r{border-color:var(--rouge)}
+.large{display:block;margin:0 auto;border:0;box-shadow:none;background:none;max-height:520px}
+.meta{color:var(--gris);font-size:.55em;line-height:1.5}
+.probleme{border-left:8px solid var(--rouge);padding-left:.8em;font-size:.95em;font-style:italic;line-height:1.35}
+.reveal ol{font-size:.6em;margin-left:1em;columns:2}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+ <h1>Architecture réseau d’une banque haïtienne multi-sites</h1><div class="filet"></div>
+ <div class="persos">
+  <figure><img src="images/jean-marc.svg" alt="Jean-Marc"><figcaption>Jean-Marc, ingénieur réseau</figcaption></figure>
+  <figure><img src="images/marie.svg" alt="Marie"><figcaption>Marie, commerçante aux Cayes</figcaption></figure>
+  <figure><img src="images/directeur.svg" alt="Le directeur"><figcaption>Le directeur de la Banque Horizon</figcaption></figure>
+ </div>
+ <p class="meta">Cours : Réseau 1 · Présenté par : [ton nom] · [date]</p>
+</section>
+
+<section>
+ <h2>Lundi, 10 h, Les Cayes</h2>
+ <div class="duo">
+  <img src="images/marie.svg" alt="Marie">
+  <img src="images/dab-panne.svg" alt="DAB en panne">
+  <div class="bulle r">« Encore indisponible ! Je dois payer mes fournisseurs… »</div>
+ </div>
+</section>
+
+<section>
+ <h2>Trois exigences pour une banque</h2>
+ <img class="large" src="images/dci.svg" alt="Disponibilité, confidentialité, intégrité">
+ <p class="meta">Contraintes en Haïti : électricité instable · peu d’opérateurs · agences dans plusieurs villes</p>
+</section>
+
+<section>
+ <h2>Problématique</h2>
+ <div class="duo">
+  <img src="images/jean-marc.svg" alt="Jean-Marc" style="max-height:380px">
+  <div><p class="probleme">Comment concevoir un réseau multi-sites sécurisé et disponible malgré ces contraintes ?</p>
+  <ol><li>Besoins et contraintes</li><li>Topologie globale</li><li>Liaisons WAN</li><li>Réseau local d’une agence</li><li>Adressage et routage</li><li>Sécurité et segmentation</li><li>Conclusion</li></ol></div>
+ </div>
+</section>
+
+<section>
+ <h2>Besoins et contraintes</h2>
+ <div class="duo">
+  <img src="images/directeur.svg" alt="Le directeur" style="max-height:330px">
+  <div class="bulle">« Je veux un réseau qui ne s’arrête plus jamais. »</div>
+  <img src="images/jean-marc.svg" alt="Jean-Marc" style="max-height:330px">
+ </div>
+ <img class="large" src="images/sites.svg" alt="Quatre types de sites" style="max-height:170px">
+</section>
+
+<section>
+ <h2>Topologie globale : trois couches</h2>
+ <img class="large" src="images/topologie.svg" alt="Cœur, distribution, accès">
+</section>
+
+<section>
+ <h2>Le centre de secours</h2>
+ <img class="large" src="images/replication.svg" alt="Réplication vers le centre de secours">
+ <p class="meta">Réplication : copie continue des données · RPO : perte maximale acceptée · RTO : durée maximale de remise en service</p>
+</section>
+
+<section>
+ <h2>L’enquête de Jean-Marc</h2>
+ <div class="duo">
+  <img src="images/jean-marc.svg" alt="Jean-Marc" style="max-height:330px">
+  <img src="images/cable-coupe.svg" alt="Fibre coupée" style="max-height:330px">
+ </div>
+ <div class="bulle r" style="margin:0 auto">« Un engin de chantier a coupé la fibre. Et il n’y avait qu’un seul lien… »</div>
+</section>
+
+<section>
+ <h2>Un seul lien = un point de défaillance unique</h2>
+ <img class="large" src="images/lien-unique.svg" alt="Un seul lien vers les agences">
+</section>
+
+<section>
+ <h2>La solution : trois liaisons</h2>
+ <img class="large" src="images/trois-liens.svg" alt="Principal, secondaire, secours">
+</section>
+
+<section>
+ <h2>Protéger les données : VPN IPsec</h2>
+ <img class="large" src="images/tunnel.svg" alt="Tunnel chiffré">
+ <p class="meta">Chiffrement : les données deviennent illisibles sans la clé · SD-WAN : bascule automatique entre les liens</p>
+</section>
+
+<section>
+ <h2>QoS : la priorité aux flux critiques</h2>
+ <img class="large" src="images/qos.svg" alt="Ambulance prioritaire">
+</section>
+
+<section>
+ <h2>Dans l’agence des Cayes</h2>
+ <div class="duo">
+  <img src="images/jean-marc.svg" alt="Jean-Marc" style="max-height:340px">
+  <img src="images/agence-local.svg" alt="Local technique" style="max-height:400px">
+ </div>
+</section>
+
+<section>
+ <h2>La solution : les VLAN</h2>
+ <img class="large" src="images/vlan.svg" alt="Cinq VLAN séparés par un pare-feu">
+ <p class="meta">Exemple de numérotation : elle varie selon la banque</p>
+</section>
+
+<section>
+ <h2>Et quand le courant saute ?</h2>
+ <img class="large" src="images/onduleur.svg" alt="Onduleur, groupe électrogène, solaire">
+</section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true,transition:"fade",width:1280,height:720});</script>
+</body>
+</html>
